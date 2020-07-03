@@ -6,7 +6,7 @@ dist: xenial
 cache:
   pip: true
 
-if: type != pull_request AND branch =~ /^(manual-)/
+if: type != pull_request AND branch =~ /^(manual-|netlify)/
 
 install:
 - sudo apt-get update && sudo apt-get install -y texlive texlive-xetex texlive-latex-extra latexmk xindy
