@@ -21,7 +21,7 @@ script:
 - git fetch origin
 - git branch -r
 - export LATEST_BRANCH="$(git branch -r | grep -Po 'origin/manual-\d+\.\d+\.x' | sort | tail -n 1)"
-- echo "Latest branch: ${LATEST_BRANCH}"
+- echo "Building from branch ${LATEST_BRANCH}"
 - git checkout "${LATEST_BRANCH}"
 - sh build_manual.sh
 
