@@ -2,7 +2,7 @@ language: python
 python:
 - 3.7
 os: linux
-dist: xenial
+dist: focal
 cache:
   pip: true
 
@@ -45,3 +45,24 @@ jobs:
             - texlive-latex-extra
             - latexmk
             - xindy
+
+    - name: Qt Help
+      before_script:
+      - cd "source"
+      - export VERSION="$(python -c 'import conf; print(conf.version)')"
+      - export LANGUAGES="$(python -c 'import conf; print(" ".join(sorted((lang for lang in conf.supported_languages.keys()), reverse=True)))')"
+      - cd ..
+      script:
+      - for language in ${LANGUAGES};
+        do
+          mkdir -p "build/qthelp/${language}";
+          sphinx-build -b qthelp "-Dqthelp_basename=manual-${language}" "-Dlanguage=${language}" source "build/qthelp/${language}";
+          qhelpgenerator "build/qthelp/${language}/manual-${language}.qhcp";
+          mv "build/qthelp/${language}/manual-${language}.qhc" "build/qthelp/${language}/manual-${language}.qch" "build/qthelp";
+        done
+      - cd "build/qthelp/";
+      - tar czf "manual-${VERSION}.tar.gz" *.qhc *.qch
+      addons:
+        apt:
+          packages:
+            - qhelpgenerator-qt5
