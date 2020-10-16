@@ -11,7 +11,7 @@ repos:
   - id: mixed-line-ending
   - id: trailing-whitespace
     exclude: ^source/locale/.*$
-  - id: no-commit-to-branch
+  - id: check-yaml
 - repo: https://github.com/codespell-project/codespell
   rev: f7f304cb40596e4706be27ca44d1401396a97420
   hooks:
@@ -36,6 +36,13 @@ repos:
   - id: sphinx
     name: "Check for Sphinx warnings"
     description: "Run the Sphinx dummy builder to ensure there are no warnings."
-    entry: sphinx-build -b dummy -W -n source .pre-commit-cache/
+    entry: python -m sphinx -b dummy -W -n source .pre-commit-cache/
     pass_filenames: false
     language: python
+    additional_dependencies:
+    - sphinx
+    - sphinx-intl
+    - graphviz
+    - markupsafe
+    - sphinx-rtd-theme==0.4.3
+    - sphinx-multiversion==0.2.1
