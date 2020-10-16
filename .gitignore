@@ -1,6 +1,10 @@
-#Ignore binary message catalog files (*.mo) compiled from textual translation descriptions (*.po)
+# Ignore binary message catalog files (*.mo) compiled from textual translation descriptions (*.po)
 *.mo
 *.pyc
 
+# Cache for the "dummy" builder used by pre-commit
+.pre-commit-cache
+
+# Generated during a regular build
 build
 source/locale/pot/.doctrees

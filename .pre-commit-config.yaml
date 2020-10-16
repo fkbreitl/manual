@@ -1,0 +1,41 @@
+default_language_version:
+  python: python3
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.1.0
+  hooks:
+  - id: check-byte-order-marker
+  - id: check-case-conflict
+  - id: check-merge-conflict
+  - id: end-of-file-fixer
+  - id: mixed-line-ending
+  - id: trailing-whitespace
+    exclude: ^source/locale/.*$
+  - id: no-commit-to-branch
+- repo: https://github.com/codespell-project/codespell
+  rev: f7f304cb40596e4706be27ca44d1401396a97420
+  hooks:
+  - id: codespell
+    name: "Check for spelling mistakes"
+    args: ["--ignore-words", ".codespellignore"]
+    exclude: ^source/locale/.*$
+- repo: https://github.com/psf/black
+  rev: stable
+  hooks:
+  - id: black
+    name: "Reformat Python code"
+- repo: https://gitlab.com/pycqa/flake8
+  rev: '3.8.3'
+  hooks:
+  - id: flake8
+    name: "Check for Python warnings"
+    files: ^tools/.*$
+    types: [text, python]
+- repo: local
+  hooks:
+  - id: sphinx
+    name: "Check for Sphinx warnings"
+    description: "Run the Sphinx dummy builder to ensure there are no warnings."
+    entry: sphinx-build -b dummy -W -n source .pre-commit-cache/
+    pass_filenames: false
+    language: python
